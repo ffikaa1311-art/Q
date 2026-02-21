@@ -14,6 +14,8 @@
             --biru: #BEE3F8;
             --biru-tua: #63B3ED;
             --putih: #FFFFFF;
+            /* Warna Tiket Baru */
+            --tkt-grad: linear-gradient(135deg, #9F7AEA, #63B3ED);
         }
 
         body {
@@ -24,16 +26,14 @@
             min-height: 100vh;
         }
 
-        /* Font Animasi Berulang hanya untuk Happy 18th */
         .happy-title {
             font-family: 'Fredoka One', cursive;
             font-size: 3rem;
             color: var(--ungu-tua);
-            animation: pulse 2s infinite; /* Tetap berulang */
+            animation: pulse 2s infinite;
             margin-bottom: 10px;
         }
 
-        /* Tulisan lain animasinya cukup sekali saja */
         .once-anim { font-family: 'Fredoka One', cursive; }
 
         .page {
@@ -48,7 +48,6 @@
             max-width: 350px; border: 2px solid var(--ungu);
         }
 
-        /* Perbaikan Tombol agar tidak blur */
         .btn-main {
             background: var(--ungu-tua); color: white; border: none;
             padding: 15px 40px; border-radius: 30px; font-weight: bold;
@@ -60,7 +59,6 @@
         .btn-main:hover { background: var(--biru-tua); transform: scale(1.02); }
         .btn-main:disabled { background: #cbd5e0; cursor: not-allowed; transform: none; }
 
-        /* Grid Section */
         #main-content { display: none; padding: 80px 20px 20px; text-align: center; }
         header { position: fixed; top: 0; width: 100%; padding: 20px; display: flex; justify-content: flex-end; box-sizing: border-box; z-index: 500; }
 
@@ -69,7 +67,6 @@
             max-width: 400px; margin: 0 auto;
         }
         
-        /* Box Style & Lock System */
         .box {
             aspect-ratio: 1/1; background: var(--putih); border-radius: 18px; 
             border: 2px solid var(--biru); display: flex; align-items: center; 
@@ -80,21 +77,73 @@
         .box.locked::after { content: '🔒'; font-size: 0.8rem; position: absolute; top: 5px; right: 5px; }
         .box.done { border-color: var(--ungu-tua); background: #f3ebff; }
 
-        /* Modal Content */
         .overlay {
             display: none; position: fixed; inset: 0;
             background: rgba(0,0,0,0.5); backdrop-filter: blur(8px);
             z-index: 2000; align-items: center; justify-content: center;
         }
-        .modal-card { background: var(--putih); width: 85%; max-width: 320px; padding: 25px; border-radius: 25px; text-align: center; }
+        .modal-card { background: var(--putih); width: 90%; max-width: 340px; padding: 25px; border-radius: 25px; text-align: center; }
 
-        /* Camera & Canvas */
-        #video-cam { width: 100%; border-radius: 15px; transform: scaleX(-1); margin-top: 10px; }
-        #photo-canvas { display: none; width: 100%; border-radius: 15px; margin-top: 10px; }
+        /* --- STYLING TIKET UNGU BIRU --- */
+        .ticket-slider-container { position: relative; width: 100%; overflow: hidden; margin-top: 15px; }
+        .ticket-wrapper { display: flex; transition: transform 0.4s ease-in-out; width: 300%; }
+        .ticket-item { width: 100%; flex-shrink: 0; padding: 10px; box-sizing: border-box; }
+        
+        .ticket-retro {
+            background: var(--tkt-grad);
+            color: white;
+            padding: 20px;
+            position: relative;
+            min-height: 140px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border-radius: 12px;
+            mask-image: radial-gradient(circle at 0 50%, transparent 12px, black 13px), 
+                        radial-gradient(circle at 100% 50%, transparent 12px, black 13px);
+            mask-size: 100% 100%;
+            box-shadow: 0 8px 15px rgba(100, 100, 255, 0.2);
+        }
 
-        .music-btn { width: 45px; height: 45px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 2px solid var(--ungu); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .ticket-inner {
+            border: 2px dashed rgba(255,255,255,0.4);
+            padding: 15px;
+            border-radius: 8px;
+            height: 100%;
+        }
 
-        /* STYLE AMPLOP NO 2 */
+        .ticket-retro h3 { font-family: 'Fredoka One', cursive; font-size: 18px; margin: 0; letter-spacing: 1px; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); }
+        .ticket-retro p { font-size: 12px; margin: 8px 0; opacity: 0.95; font-weight: 500; }
+
+        .btn-pakai {
+            background: white; color: var(--ungu-tua); border: none;
+            padding: 7px 18px; border-radius: 20px; font-weight: bold;
+            font-size: 12px; cursor: pointer; margin-top: 5px;
+            transition: 0.3s;
+        }
+        .btn-pakai:hover { background: var(--biru); color: var(--biru-tua); }
+
+        .status-stamp {
+            display: none; position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%) rotate(-15deg);
+            font-size: 24px; font-weight: bold; color: #ff3e3e;
+            border: 4px solid #ff3e3e; padding: 5px 15px;
+            border-radius: 10px; background: rgba(255,255,255,0.9); z-index: 10;
+        }
+        .used .ticket-retro { filter: grayscale(0.8); opacity: 0.5; }
+        .used .status-stamp { display: block; }
+        .used .btn-pakai { display: none; }
+
+        .nav-tkt {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            background: rgba(255,255,255,0.4); border: none; font-size: 20px;
+            cursor: pointer; z-index: 30; color: #555; padding: 5px; border-radius: 50%;
+            width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;
+        }
+        .prev-tkt { left: -5px; }
+        .next-tkt { right: -5px; }
+
+        /* Logic Envelope & Camera */
         .envelope-wrapper { cursor: pointer; display: flex; justify-content: center; margin-top: 15px; }
         .envelope { position: relative; width: 100px; height: 70px; background-color: var(--ungu); border-radius: 0 0 10px 10px; transition: 0.5s; }
         .envelope::before { content: ''; position: absolute; top: 0; left: 0; border-top: 40px solid var(--biru); border-left: 50px solid transparent; border-right: 50px solid transparent; border-radius: 10px 10px 0 0; transition: 0.5s; z-index: 2; }
@@ -143,18 +192,15 @@
         <div class="modal-card">
             <h1 id="mIcon"></h1>
             <div id="mBody" style="font-size: 15px; color: #4A5568; margin-bottom: 20px;"></div>
-            
             <div id="cam-area" style="display:none;">
                 <video id="video-cam" autoplay playsinline></video>
                 <canvas id="photo-canvas"></canvas>
                 <h2 id="timer"></h2>
                 <a id="downloadLink" style="display:none;" class="btn-main">Simpan Foto 📸</a>
             </div>
-
             <div id="wish-area" style="display:none;">
                 <textarea id="wishInput" placeholder="Ketik doa kamu di sini..." style="width:100%; border-radius:10px; padding:10px; border:1px solid var(--ungu); font-family: inherit;"></textarea>
             </div>
-
             <button class="btn-main" id="modalActionBtn" onclick="processAction()">Lanjut</button>
         </div>
     </div>
@@ -163,6 +209,7 @@
         const bgm = document.getElementById('bgm');
         let playing = false;
         let currentUnlocked = 1;
+        let tktIndex = 0;
 
         function toggleMusic() {
             if(!playing) { bgm.play(); document.getElementById('musicBtn').innerText = "⏸️"; }
@@ -187,21 +234,31 @@
             1: ["🕯️", "Selamat Ulang Tahun, Sayangkuuuu <br><br> <div onclick='this.innerHTML=\"🎂\"; unlockNext(1);' style='font-size:50px; cursor:pointer;'>🔥<br>🎂</div>"],
             2: ["💌", `Ada surat buat kamu di dalem amplop ini... <br>
                 <div class="envelope-wrapper" onclick="handleLetterClick(this)">
-                    <div class="envelope">
-                        <div class="letter-small"></div>
-                    </div>
+                    <div class="envelope"><div class="letter-small"></div></div>
                 </div>
                 <div id="realLetter" style="display:none; margin-top:15px; text-align:left; background:#fff3ff; padding:10px; border-radius:10px;">
                     'Sayang, kamu itu berharga banget buat aku. Makasih ya udah lahir ke dunia ini...'
                 </div>`],
-            3: ["🎙️", "Pesan suara buat kamu: <br><a href='https://link-google-drive-kamu' target='_blank' style='color:var(--ungu-tua); text-decoration:underline;'>Dengerin di sini</a>"],
-            4: ["🎵", `Playlist lagu favorit kita: <br>
-                <a href='https://open.spotify.com/track/106D4D65VvYFwM5QjZ0K5U?si=a58a69e4a3b749de' target='_blank' onclick="stepOneSpotify()" style='color:var(--ungu-tua); text-decoration:underline;'>Buka Spotify</a>
+            3: ["🎙️", "Pesan suara buat kamu: <br><a href='#' target='_blank' style='color:var(--ungu-tua); text-decoration:underline;'>Dengerin di sini</a>"],
+            4: ["🎵", `Lagu yang pas banget buat kamu: <br>
+                <a href='https://open.spotify.com/playlist/link-playlist-kamu8' target='_blank' onclick="stepOneSpotify()" style='color:var(--ungu-tua); text-decoration:underline; font-weight:bold;'>Buka Spotify (Terpukau - Astrid)</a>
                 <div id="reasonArea" style="display:none; margin-top:20px; border-top:1px dashed var(--ungu); padding-top:10px;">
                     <p><b>Kenapa aku kasih lagu ini?</b></p>
-                    <p style="font-style: italic;">"Karena tiap denger lagu ini, aku selalu inget momen kita pas..."</p>
+                    <p style="font-style: italic;">"Karena tiap denger lagu ini, aku selalu terpukau sama kehadiran kamu di hidupku..."</p>
                 </div>`],
-            5: ["🍕", "Traktir online! Nanti kabari mau makan apa ya!"],
+            5: ["🎟️", `
+                Silahkan pilih tiket makan kamu hari ini! <br>
+                <div class="ticket-slider-container">
+                    <button class="nav-tkt prev-tkt" onclick="moveTkt(-1)">❮</button>
+                    <button class="nav-tkt next-tkt" onclick="moveTkt(1)">❯</button>
+                    <div class="ticket-wrapper" id="tktWrap">
+                        <div class="ticket-item" id="tkt1"><div class="ticket-retro"><div class="ticket-inner"><h3>TIKET AEON</h3><p>Makan kenyang di AEON!</p><button class="btn-pakai" onclick="useTkt('tkt1')">Gunakan</button></div><div class="status-stamp">USED</div></div></div>
+                        <div class="ticket-item" id="tkt2"><div class="ticket-retro"><div class="ticket-inner"><h3>TIKET BAKMIE</h3><p>Bakmie favorit kamu!</p><button class="btn-pakai" onclick="useTkt('tkt2')">Gunakan</button></div><div class="status-stamp">USED</div></div></div>
+                        <div class="ticket-item" id="tkt3"><div class="ticket-retro"><div class="ticket-inner"><h3>TIKET BEBAS</h3><p>Pilih makan apa saja!</p><button class="btn-pakai" onclick="useTkt('tkt3')">Gunakan</button></div><div class="status-stamp">USED</div></div></div>
+                    </div>
+                </div>
+                <p style="font-size: 11px; margin-top:10px; color:#999;">Slide untuk pilih tiket lainnya</p>
+            `],
             6: ["💪", "Kesehatan itu penting, jangan begadang!"],
             7: ["📖", "Kamus Fika: Kamu adalah penyemangatku!"],
             8: ["🧩", "Mini Game: Cari 3 perbedaan di foto kita? (Chat aku ya!)"],
@@ -213,37 +270,38 @@
             14: ["🎡", "SPIN PRANK! <button onclick='this.innerText=\"ZONK! Dapet Milkita!\"; unlockNext(14);'>SPIN</button>"],
             15: ["⏱️", "TANTANGAN 18 DETIK! Pose jelek sekarang! <br><button id='startCamBtn' onclick='startCameraChallenge()'>Mulai Kamera</button>"],
             16: ["✨", "<b>Make a Wish</b><br>Tulis harapanmu di bawah ini:"],
-            17: ["🎹", "Hadiah Utama: Video Piano aku! <br><a href='LINK_PIANO' target='_blank'>Tonton di sini</a>"],
-            18: ["📞", "Call Me Now! <br><a href='tel:NOMOR_KAMU'>Klik buat telpon aku</a>"]
+            17: ["🎹", "Hadiah Utama: Video Piano aku! <br><a href='#' target='_blank'>Tonton di sini</a>"],
+            18: ["📞", "Call Me Now! <br><a href='tel:000000'>Klik buat telpon aku</a>"]
         };
 
-        // FUNGSI KHUSUS NOMOR 2 (Amplop)
-        function handleLetterClick(el) {
-            const env = el.querySelector('.envelope');
-            if(!env.classList.contains('open')) {
-                env.classList.add('open');
-            } else {
-                document.getElementById('realLetter').style.display = 'block';
-                el.style.display = 'none';
-                document.getElementById('modalActionBtn').style.display = 'inline-block';
+        function moveTkt(dir) {
+            const wrap = document.getElementById('tktWrap');
+            tktIndex = (tktIndex + dir + 3) % 3;
+            wrap.style.transform = `translateX(-${tktIndex * 33.333}%)`;
+        }
+
+        function useTkt(id) {
+            if(confirm("Gunakan tiket ini sekarang?")) {
+                document.getElementById(id).classList.add('used');
+                localStorage.setItem(id, 'used');
             }
         }
 
-        // FUNGSI KHUSUS NOMOR 4 (Spotify)
         function stepOneSpotify() {
             document.getElementById('modalActionBtn').style.display = 'inline-block';
-            document.getElementById('modalActionBtn').onclick = function() {
-                stepTwoReason();
+            document.getElementById('modalActionBtn').onclick = () => {
+                document.getElementById('reasonArea').style.display = 'block';
+                document.getElementById('modalActionBtn').onclick = processAction;
             };
         }
 
-        function stepTwoReason() {
-            const reason = document.getElementById('reasonArea');
-            reason.style.display = 'block';
-            document.getElementById('modalActionBtn').onclick = function() {
-                processAction();
-                document.getElementById('modalActionBtn').onclick = processAction;
-            };
+        function handleLetterClick(el) {
+            el.querySelector('.envelope').classList.add('open');
+            setTimeout(() => {
+                document.getElementById('realLetter').style.display = 'block';
+                el.style.display = 'none';
+                document.getElementById('modalActionBtn').style.display = 'inline-block';
+            }, 600);
         }
 
         function renderGrid() {
@@ -266,11 +324,18 @@
             document.getElementById('wish-area').style.display = 'none';
             document.getElementById('modalActionBtn').style.display = 'inline-block';
             
-            // Logika sembunyikan tombol lanjut di nomor tertentu
-            if(id == 2 || id == 4 || id == 15) {
-                document.getElementById('modalActionBtn').style.display = 'none';
-            } else if(id == 16) {
-                document.getElementById('wish-area').style.display = 'block';
+            if(id == 2 || id == 4 || id == 15) document.getElementById('modalActionBtn').style.display = 'none';
+            if(id == 16) document.getElementById('wish-area').style.display = 'block';
+            
+            if(id == 5) {
+                setTimeout(() => {
+                    ['tkt1', 'tkt2', 'tkt3'].forEach(tid => {
+                        if(localStorage.getItem(tid) === 'used') {
+                            const el = document.getElementById(tid);
+                            if(el) el.classList.add('used');
+                        }
+                    });
+                }, 100);
             }
             
             m.style.display = 'flex';
@@ -279,12 +344,10 @@
 
         function processAction() {
             let id = window.currentOpening;
-            if(id == 16) {
-                const wish = document.getElementById('wishInput').value;
-                if(wish.trim() == "") { alert("Wajib ngetik doanya dulu ya!"); return; }
-            }
+            if(id == 16 && document.getElementById('wishInput').value.trim() == "") return alert("Wajib ngetik doa dulu!");
             unlockNext(id);
-            closeContent();
+            document.getElementById('contentModal').style.display = 'none';
+            if(window.stream) window.stream.getTracks().forEach(t => t.stop());
         }
 
         function unlockNext(id) {
@@ -294,19 +357,12 @@
             }
         }
 
-        function closeContent() {
-            document.getElementById('contentModal').style.display = 'none';
-            if(window.stream) window.stream.getTracks().forEach(t => t.stop());
-        }
-
-        // FUNGSI KHUSUS NOMOR 15 (Kamera)
         async function startCameraChallenge() {
             document.getElementById('startCamBtn').style.display = 'none';
             const area = document.getElementById('cam-area');
             const video = document.getElementById('video-cam');
             const canvas = document.getElementById('photo-canvas');
             const timer = document.getElementById('timer');
-            const downloadLink = document.getElementById('downloadLink');
             area.style.display = 'block';
 
             const stream = await navigator.mediaDevices.getUserMedia({video:true});
@@ -320,18 +376,12 @@
                 if(c < 0) {
                     clearInterval(interval);
                     timer.innerText = "CEKREK!";
-                    canvas.width = video.videoWidth;
-                    canvas.height = video.videoHeight;
+                    canvas.width = video.videoWidth; canvas.height = video.videoHeight;
                     canvas.getContext('2d').drawImage(video, 0, 0);
-                    
-                    video.style.display = 'none';
-                    canvas.style.display = 'block';
-                    
-                    const dataURL = canvas.toDataURL("image/png");
-                    downloadLink.href = dataURL;
-                    downloadLink.download = "pose-jelek-18detik.png";
-                    downloadLink.style.display = 'inline-block';
-                    
+                    video.style.display = 'none'; canvas.style.display = 'block';
+                    document.getElementById('downloadLink').href = canvas.toDataURL("image/png");
+                    document.getElementById('downloadLink').download = "pose.png";
+                    document.getElementById('downloadLink').style.display = 'inline-block';
                     document.getElementById('modalActionBtn').style.display = 'inline-block';
                 }
             }, 1000);
