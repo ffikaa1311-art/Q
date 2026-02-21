@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+       <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -83,7 +83,7 @@
         }
         .modal-card { background: var(--putih); width: 90%; max-width: 340px; padding: 25px; border-radius: 25px; text-align: center; }
 
-        /* --- STYLING TIKET REVISI --- */
+        /* --- STYLING TIKET SLIDER --- */
         .ticket-slider-container { position: relative; width: 100%; overflow: hidden; margin-top: 15px; }
         .ticket-wrapper { display: flex; transition: transform 0.4s ease-in-out; width: 300%; }
         .ticket-item { width: 33.333%; flex-shrink: 0; padding: 10px; box-sizing: border-box; }
@@ -188,8 +188,8 @@
             <h1 id="mIcon"></h1>
             <div id="mBody" style="font-size: 15px; color: #4A5568; margin-bottom: 20px;"></div>
             <div id="cam-area" style="display:none;">
-                <video id="video-cam" autoplay playsinline></video>
-                <canvas id="photo-canvas"></canvas>
+                <video id="video-cam" autoplay playsinline style="width:100%; border-radius:15px;"></video>
+                <canvas id="photo-canvas" style="display:none; width:100%; border-radius:15px;"></canvas>
                 <h2 id="timer"></h2>
                 <a id="downloadLink" style="display:none;" class="btn-main">Simpan Foto 📸</a>
             </div>
@@ -236,7 +236,7 @@
                 </div>`],
             3: ["🎙️", "Pesan suara buat kamu: <br><a href='#' target='_blank' style='color:var(--ungu-tua); text-decoration:underline;'>Dengerin di sini</a>"],
             4: ["🎵", `Ada lagu yang mau aku sampaikan lewat liriknya... <br><br>
-                <a href='https://open.spotify.com/track/6p0C0tNn9O9G3R8z7T6L1P' target='_blank' onclick="stepOneSpotify()" style='color:var(--ungu-tua); text-decoration:underline; font-weight:bold; font-size: 16px;'>
+                <a href='https://open.spotify.com/track/0irPA8LmsoQYkqE5I7v3aj?si=NNw2aTlESdqufAu4XHPuKA4' target='_blank' onclick="stepOneSpotify()" style='color:var(--ungu-tua); text-decoration:underline; font-weight:bold; font-size: 16px;'>
                     Klik untuk dengar kejutan lagu dari aku ✨
                 </a>
                 <div id="reasonArea" style="display:none; margin-top:20px; border-top:1px dashed var(--ungu); padding-top:10px;">
@@ -363,28 +363,35 @@
             const canvas = document.getElementById('photo-canvas');
             const timer = document.getElementById('timer');
             area.style.display = 'block';
+            video.style.display = 'block';
+            canvas.style.display = 'none';
 
-            const stream = await navigator.mediaDevices.getUserMedia({video:true});
-            window.stream = stream;
-            video.srcObject = stream;
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({video:true});
+                window.stream = stream;
+                video.srcObject = stream;
 
-            let c = 18;
-            const interval = setInterval(() => {
-                timer.innerText = c;
-                c--;
-                if(c < 0) {
-                    clearInterval(interval);
-                    timer.innerText = "CEKREK!";
-                    canvas.width = video.videoWidth; canvas.height = video.videoHeight;
-                    canvas.getContext('2d').drawImage(video, 0, 0);
-                    video.style.display = 'none'; canvas.style.display = 'block';
-                    document.getElementById('downloadLink').href = canvas.toDataURL("image/png");
-                    document.getElementById('downloadLink').download = "pose.png";
-                    document.getElementById('downloadLink').style.display = 'inline-block';
-                    document.getElementById('modalActionBtn').style.display = 'inline-block';
-                }
-            }, 1000);
+                let c = 18;
+                const interval = setInterval(() => {
+                    timer.innerText = c;
+                    c--;
+                    if(c < 0) {
+                        clearInterval(interval);
+                        timer.innerText = "CEKREK!";
+                        canvas.width = video.videoWidth; canvas.height = video.videoHeight;
+                        canvas.getContext('2d').drawImage(video, 0, 0);
+                        video.style.display = 'none'; canvas.style.display = 'block';
+                        document.getElementById('downloadLink').href = canvas.toDataURL("image/png");
+                        document.getElementById('downloadLink').download = "pose.png";
+                        document.getElementById('downloadLink').style.display = 'inline-block';
+                        document.getElementById('modalActionBtn').style.display = 'inline-block';
+                    }
+                }, 1000);
+            } catch (err) {
+                alert("Kamera gak bisa dibuka nih :(");
+            }
         }
     </script>
 </body>
 </html>
+     
