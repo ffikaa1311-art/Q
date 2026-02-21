@@ -14,7 +14,6 @@
             --biru: #BEE3F8;
             --biru-tua: #63B3ED;
             --putih: #FFFFFF;
-            /* Warna Tiket Baru */
             --tkt-grad: linear-gradient(135deg, #9F7AEA, #63B3ED);
         }
 
@@ -84,10 +83,10 @@
         }
         .modal-card { background: var(--putih); width: 90%; max-width: 340px; padding: 25px; border-radius: 25px; text-align: center; }
 
-        /* --- STYLING TIKET UNGU BIRU --- */
+        /* --- STYLING TIKET REVISI --- */
         .ticket-slider-container { position: relative; width: 100%; overflow: hidden; margin-top: 15px; }
         .ticket-wrapper { display: flex; transition: transform 0.4s ease-in-out; width: 300%; }
-        .ticket-item { width: 100%; flex-shrink: 0; padding: 10px; box-sizing: border-box; }
+        .ticket-item { width: 33.333%; flex-shrink: 0; padding: 10px; box-sizing: border-box; }
         
         .ticket-retro {
             background: var(--tkt-grad);
@@ -102,26 +101,22 @@
             mask-image: radial-gradient(circle at 0 50%, transparent 12px, black 13px), 
                         radial-gradient(circle at 100% 50%, transparent 12px, black 13px);
             mask-size: 100% 100%;
-            box-shadow: 0 8px 15px rgba(100, 100, 255, 0.2);
         }
 
         .ticket-inner {
             border: 2px dashed rgba(255,255,255,0.4);
             padding: 15px;
             border-radius: 8px;
-            height: 100%;
         }
 
-        .ticket-retro h3 { font-family: 'Fredoka One', cursive; font-size: 18px; margin: 0; letter-spacing: 1px; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); }
-        .ticket-retro p { font-size: 12px; margin: 8px 0; opacity: 0.95; font-weight: 500; }
+        .ticket-retro h3 { font-family: 'Fredoka One', cursive; font-size: 18px; margin: 0; }
+        .ticket-retro p { font-size: 12px; margin: 8px 0; font-weight: 500; }
 
         .btn-pakai {
             background: white; color: var(--ungu-tua); border: none;
             padding: 7px 18px; border-radius: 20px; font-weight: bold;
             font-size: 12px; cursor: pointer; margin-top: 5px;
-            transition: 0.3s;
         }
-        .btn-pakai:hover { background: var(--biru); color: var(--biru-tua); }
 
         .status-stamp {
             display: none; position: absolute; top: 50%; left: 50%;
@@ -136,12 +131,12 @@
 
         .nav-tkt {
             position: absolute; top: 50%; transform: translateY(-50%);
-            background: rgba(255,255,255,0.4); border: none; font-size: 20px;
+            background: rgba(255,255,255,0.6); border: none; font-size: 20px;
             cursor: pointer; z-index: 30; color: #555; padding: 5px; border-radius: 50%;
             width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;
         }
-        .prev-tkt { left: -5px; }
-        .next-tkt { right: -5px; }
+        .prev-tkt { left: 0px; }
+        .next-tkt { right: 0px; }
 
         /* Logic Envelope & Camera */
         .envelope-wrapper { cursor: pointer; display: flex; justify-content: center; margin-top: 15px; }
@@ -231,7 +226,7 @@
         }
 
         const data = {
-            1: ["🕯️", "Selamat Ulang Tahun, Sayangkuuuu <br><br> <div onclick='this.innerHTML=\"🎂\"; unlockNext(1);' style='font-size:50px; cursor:pointer;'>🔥<br>🎂</div>"],
+            1: ["🕯️", "Selamat Ulang Tahun, Sayangku <br><br> <div onclick='this.innerHTML=\"🎂\"; unlockNext(1);' style='font-size:50px; cursor:pointer;'>🔥<br>🎂</div>"],
             2: ["💌", `Ada surat buat kamu di dalem amplop ini... <br>
                 <div class="envelope-wrapper" onclick="handleLetterClick(this)">
                     <div class="envelope"><div class="letter-small"></div></div>
@@ -240,14 +235,16 @@
                     'Sayang, kamu itu berharga banget buat aku. Makasih ya udah lahir ke dunia ini...'
                 </div>`],
             3: ["🎙️", "Pesan suara buat kamu: <br><a href='#' target='_blank' style='color:var(--ungu-tua); text-decoration:underline;'>Dengerin di sini</a>"],
-            4: ["🎵", `Lagu yang pas banget buat kamu: <br>
-                <a href='https://open.spotify.com/playlist/link-playlist-kamu8' target='_blank' onclick="stepOneSpotify()" style='color:var(--ungu-tua); text-decoration:underline; font-weight:bold;'>Buka Spotify (Terpukau - Astrid)</a>
+            4: ["🎵", `Ada lagu yang mau aku sampaikan lewat liriknya... <br><br>
+                <a href='https://open.spotify.com/track/6p0C0tNn9O9G3R8z7T6L1P' target='_blank' onclick="stepOneSpotify()" style='color:var(--ungu-tua); text-decoration:underline; font-weight:bold; font-size: 16px;'>
+                    Klik untuk dengar kejutan lagu dari aku ✨
+                </a>
                 <div id="reasonArea" style="display:none; margin-top:20px; border-top:1px dashed var(--ungu); padding-top:10px;">
-                    <p><b>Kenapa aku kasih lagu ini?</b></p>
-                    <p style="font-style: italic;">"Karena tiap denger lagu ini, aku selalu terpukau sama kehadiran kamu di hidupku..."</p>
+                    <p><b>Kenapa lagu ini?</b></p>
+                    <p style="font-style: italic;">"Karena aku ingin bulan ini, dan bulan-bulan selanjutnya selalu jadi bulan yang baik buat kamu. Dengerin baik-baik liriknya ya..."</p>
                 </div>`],
             5: ["🎟️", `
-                Silahkan pilih tiket makan kamu hari ini! <br>
+                Silahkan pilih tiket makan kamu! <br>
                 <div class="ticket-slider-container">
                     <button class="nav-tkt prev-tkt" onclick="moveTkt(-1)">❮</button>
                     <button class="nav-tkt next-tkt" onclick="moveTkt(1)">❯</button>
@@ -328,6 +325,7 @@
             if(id == 16) document.getElementById('wish-area').style.display = 'block';
             
             if(id == 5) {
+                tktIndex = 0;
                 setTimeout(() => {
                     ['tkt1', 'tkt2', 'tkt3'].forEach(tid => {
                         if(localStorage.getItem(tid) === 'used') {
@@ -335,6 +333,7 @@
                             if(el) el.classList.add('used');
                         }
                     });
+                    document.getElementById('tktWrap').style.transform = `translateX(0)`;
                 }, 100);
             }
             
